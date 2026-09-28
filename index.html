@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bickys System - Premium Movie Ticket Booking System. Book tickets for the latest movies in IMAX, 3D, and 4DX with seamless seat selection and payment.">
+    <meta name="keywords" content="movies, ticket booking, cinema, theatre, IMAX, seats, Bickys System">
+    <title>Bickys System | Premium Movie Ticket Booking</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- React & Babel CDNs (for browser-side React component execution) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body class="dark-theme">
+    <!-- Background Blur Decorative Elements -->
+    <div class="bg-blur bg-blur-1"></div>
+    <div class="bg-blur bg-blur-2"></div>
+    <div class="bg-blur bg-blur-3"></div>
+
+    <!-- React Navbar Container -->
+    <div id="react-navbar"></div>
+
+    <!-- Fallback / Static Navigation Header (Hydrated by React/JS) -->
+    <header class="navbar-header" id="mainHeader">
+        <div class="container navbar-container">
+            <!-- Brand Logo -->
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+                <span class="logo-text">Bickys <span class="highlight">System</span></span>
+            </a>
+
+            <!-- Location Selector -->
+            <div class="location-selector" id="locationSelectorBtn">
+                <i class="fa-solid fa-location-dot location-icon"></i>
+                <div class="location-info">
+                    <span class="location-label">Location</span>
+                    <span class="location-current" id="currentLocationText">New York, NY</span>
+                </div>
+                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="globalSearchInput" placeholder="Search for movies, genres, theatres..." autocomplete="off">
+                <button class="search-clear-btn" id="searchClearBtn" style="display: none;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <!-- Live Search Results Modal Dropdown -->
+                <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="movies.html" class="nav-link"><i class="fa-solid fa-clapperboard"></i> Movies</a>
+                <a href="#" class="nav-link" onclick="openToast('Theatres selection updated based on city!', 'info')"><i class="fa-solid fa-building-user"></i> Theatres</a>
+                <a href="#" class="nav-link" id="myBookingsNavBtn"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+            </nav>
+
+            <!-- User Actions -->
+            <div class="nav-actions">
+                <!-- Theme Toggle -->
+                <button class="icon-btn" id="themeToggleBtn" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Notification Bell -->
+                <button class="icon-btn notification-btn" id="notificationBtn" title="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="badge-dot"></span>
+                </button>
+
+                <!-- User Login/Profile Button -->
+                <button class="btn btn-primary btn-glow" id="userAuthBtn">
+                    <i class="fa-regular fa-user"></i>
+                    <span id="userAuthText">Sign In</span>
+                </button>
+
+                <!-- Mobile Hamburger Toggle -->
+                <button class="mobile-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Hero Movie Carousel Section -->
+        <section class="hero-carousel-section">
+            <div class="hero-slider" id="heroSlider">
+                <!-- Banner 1 -->
+                <div class="hero-slide active" style="background-image: linear-gradient(to right, rgba(15, 23, 42, 0.95) 20%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.95) 100%), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop');">
+                    <div class="container hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-tag hot"><i class="fa-solid fa-fire"></i> Now Showing</span>
+                            <span class="badge-tag format">IMAX 3D</span>
+                        </div>
+                        <h1 class="hero-title">Cyberverse: Awakening</h1>
+                        <div class="hero-meta">
+                            <span class="rating"><i class="fa-solid fa-star"></i> 9.4/10 (48.5K Votes)</span>
+                            <span class="meta-dot"></span>
+                            <span>2h 45m</span>
+                            <span class="meta-dot"></span>
+                            <span>Sci-Fi / Action / Thriller</span>
+                            <span class="meta-dot"></span>
+                            <span class="pg-rating">UA 16+</span>
+                        </div>
+                        <p class="hero-description">
+                            In a neo-dystopian metropolis controlled by synthetic intelligence, a rogue hacker discovers a code that could reshape human destiny forever.
+                        </p>
+                        <div class="hero-actions">
+                            <a href="seats.html?movieId=m1" class="btn btn-primary btn-lg btn-glow">
+                                <i class="fa-solid fa-ticket"></i> Book Seats Now
+                            </a>
+                            <button class="btn btn-glass btn-lg" onclick="openTrailerModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                                <i class="fa-solid fa-play"></i> Watch Trailer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner 2 -->
+                <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(15, 23, 42, 0.95) 20%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.95) 100%), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920&auto=format&fit=crop');">
+                    <div class="container hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-tag hot"><i class="fa-solid fa-fire"></i> Blockbuster</span>
+                            <span class="badge-tag format">Dolby Atmos</span>
+                        </div>
+                        <h1 class="hero-title">Shadows of Eternity</h1>
+                        <div class="hero-meta">
+                            <span class="rating"><i class="fa-solid fa-star"></i> 9.1/10 (32.1K Votes)</span>
+                            <span class="meta-dot"></span>
+                            <span>2h 18m</span>
+                            <span class="meta-dot"></span>
+                            <span>Fantasy / Mystery</span>
+                            <span class="meta-dot"></span>
+                            <span class="pg-rating">U</span>
+                        </div>
+                        <p class="hero-description">
+                            An ancient order of guardians faces their greatest challenge as mystical powers begin fading across realms, threatening total darkness.
+                        </p>
+                        <div class="hero-actions">
+                            <a href="seats.html?movieId=m2" class="btn btn-primary btn-lg btn-glow">
+                                <i class="fa-solid fa-ticket"></i> Book Seats Now
+                            </a>
+                            <button class="btn btn-glass btn-lg" onclick="openTrailerModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                                <i class="fa-solid fa-play"></i> Watch Trailer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Controls -->
+            <div class="hero-controls">
+                <button class="hero-arrow prev" id="heroPrevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="hero-dots" id="heroDots">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                </div>
+                <button class="hero-arrow next" id="heroNextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- Category & Quick Search Strip -->
+        <section class="filter-strip-section">
+            <div class="container">
+                <div class="filter-card glass-panel">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-film filter-icon"></i>
+                        <select id="genreFilterSelect" class="filter-select">
+                            <option value="all">All Genres</option>
+                            <option value="Action">Action</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Animation">Animation</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Horror">Horror</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <div class="filter-group">
+                        <i class="fa-solid fa-language filter-icon"></i>
+                        <select id="languageFilterSelect" class="filter-select">
+                            <option value="all">All Languages</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="French">French</option>
+                            <option value="Japanese">Japanese</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <div class="filter-group">
+                        <i class="fa-solid fa-vr-cardboard filter-icon"></i>
+                        <select id="formatFilterSelect" class="filter-select">
+                            <option value="all">All Formats</option>
+                            <option value="IMAX 3D">IMAX 3D</option>
+                            <option value="2D">2D</option>
+                            <option value="4DX">4DX</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" id="applyFilterBtn">
+                        <i class="fa-solid fa-filter"></i> Filter Movies
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Movies Section (Rendered dynamically & enhanced with React) -->
+        <section class="section-padding" id="featuredSection">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <span class="sub-heading">Explore Latest Cinema</span>
+                        <h2 class="section-title">Recommended Movies</h2>
+                    </div>
+                    <a href="movies.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <!-- React Component Mount Point for Movie Grid -->
+                <div id="react-movie-grid"></div>
+
+                <!-- Fallback HTML Grid for Vanilla JS / Direct render -->
+                <div class="movie-grid" id="homeMovieGrid">
+                    <!-- Dynamic JS injected movie cards will populate here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Movies Section -->
+        <section class="section-padding bg-surface-dark" id="trendingSection">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <span class="sub-heading">Top 10 Trending This Week</span>
+                        <h2 class="section-title">Trending Movies</h2>
+                    </div>
+                </div>
+
+                <div class="trending-carousel" id="trendingCarousel">
+                    <!-- Dynamic Trending Cards -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Movie Categories / Genres Grid -->
+        <section class="section-padding">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="sub-heading">Pick Your Vibe</span>
+                    <h2 class="section-title">Browse By Genre</h2>
+                </div>
+
+                <div class="genres-grid">
+                    <a href="movies.html?genre=Action" class="genre-card action">
+                        <div class="genre-overlay"></div>
+                        <i class="fa-solid fa-explosion genre-icon"></i>
+                        <h3 class="genre-title">Action & Adventure</h3>
+                        <span class="genre-count">12+ Movies</span>
+                    </a>
+
+                    <a href="movies.html?genre=Sci-Fi" class="genre-card scifi">
+                        <div class="genre-overlay"></div>
+                        <i class="fa-solid fa-user-astronaut genre-icon"></i>
+                        <h3 class="genre-title">Sci-Fi & Cyberpunk</h3>
+                        <span class="genre-count">8+ Movies</span>
+                    </a>
+
+                    <a href="movies.html?genre=Animation" class="genre-card animation">
+                        <div class="genre-overlay"></div>
+                        <i class="fa-solid fa-wand-magic-sparkles genre-icon"></i>
+                        <h3 class="genre-title">Animation & Family</h3>
+                        <span class="genre-count">10+ Movies</span>
+                    </a>
+
+                    <a href="movies.html?genre=Drama" class="genre-card drama">
+                        <div class="genre-overlay"></div>
+                        <i class="fa-solid fa-masks-theater genre-icon"></i>
+                        <h3 class="genre-title">Drama & Thriller</h3>
+                        <span class="genre-count">15+ Movies</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Movies Teaser Section -->
+        <section class="section-padding bg-surface-dark" id="upcomingSection">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <span class="sub-heading">Coming Soon to Big Screens</span>
+                        <h2 class="section-title">Upcoming Releases</h2>
+                    </div>
+                </div>
+
+                <div class="movie-grid" id="upcomingMovieGrid">
+                    <!-- Injected by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Offers & Discounts Section -->
+        <section class="section-padding">
+            <div class="container">
+                <div class="offers-banner glass-panel">
+                    <div class="offers-content">
+                        <span class="offer-tag">EXCLUSIVE PROMO</span>
+                        <h2>Get 25% Cashback with CinePay</h2>
+                        <p>Use offer code <strong>CINEFIRST</strong> on your first booking card payment and get up to $10 instant discount.</p>
+                        <a href="movies.html" class="btn btn-primary btn-glow">Book Now & Save</a>
+                    </div>
+                    <div class="offers-badge-icon">
+                        <i class="fa-solid fa-ticket-simple"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- React Footer Mount Point -->
+    <div id="react-footer"></div>
+
+    <!-- Static Footer Element -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="brand-logo">
+                        <div class="logo-icon">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <span class="logo-text">Bickys <span class="highlight">System</span></span>
+                    </a>
+                    <p class="footer-desc">
+                        Next-generation web movie ticket booking system offering luxury cinema experiences, seamless seat selection, and instant ticketing.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="movies.html">Movies</a></li>
+                        <li><a href="#">Theatres</a></li>
+                        <li><a href="#">Offers</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Cinemas & Formats</h4>
+                    <ul>
+                        <li><a href="#">IMAX 3D Experience</a></li>
+                        <li><a href="#">Dolby Cinema 4K</a></li>
+                        <li><a href="#">4DX Motion Seats</a></li>
+                        <li><a href="#">VIP Luxury Lounges</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Support & Legal</h4>
+                    <ul>
+                        <li><a href="#">Help & FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bickys System Entertainment Inc. All Rights Reserved.</p>
+                <div class="payment-methods-icons">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-apple-pay"></i>
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- React Modal Mount Point -->
+    <div id="react-modal-root"></div>
+
+    <!-- Trailer Video Modal -->
+    <div class="modal-overlay" id="trailerModal">
+        <div class="modal-container glass-modal video-modal">
+            <button class="modal-close-btn" id="closeTrailerModal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-body p-0">
+                <div class="video-container">
+                    <iframe id="trailerIframe" src="" title="Movie Trailer" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Location Selector Modal -->
+    <div class="modal-overlay" id="locationModal">
+        <div class="modal-container glass-modal">
+            <div class="modal-header">
+                <h3>Select Your Location</h3>
+                <button class="modal-close-btn" id="closeLocationModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="location-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="citySearchInput" placeholder="Search your city...">
+                </div>
+                <h4 class="popular-cities-title">Popular Cities</h4>
+                <div class="cities-grid" id="citiesGrid">
+                    <button class="city-btn active" data-city="New York, NY">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>New York</span>
+                    </button>
+                    <button class="city-btn" data-city="Los Angeles, CA">
+                        <i class="fa-solid fa-film"></i>
+                        <span>Los Angeles</span>
+                    </button>
+                    <button class="city-btn" data-city="Chicago, IL">
+                        <i class="fa-solid fa-city"></i>
+                        <span>Chicago</span>
+                    </button>
+                    <button class="city-btn" data-city="London, UK">
+                        <i class="fa-solid fa-crown"></i>
+                        <span>London</span>
+                    </button>
+                    <button class="city-btn" data-city="Toronto, CA">
+                        <i class="fa-solid fa-leaf"></i>
+                        <span>Toronto</span>
+                    </button>
+                    <button class="city-btn" data-city="Sydney, AU">
+                        <i class="fa-solid fa-sun"></i>
+                        <span>Sydney</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Bookings History Modal -->
+    <div class="modal-overlay" id="bookingsModal">
+        <div class="modal-container glass-modal modal-lg">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-ticket"></i> My Booking History</h3>
+                <button class="modal-close-btn" id="closeBookingsModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="bookingHistoryContent">
+                    <!-- Populated dynamically from localStorage -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Auth / Profile Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-container glass-modal">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Sign In to Bickys System</h3>
+                <button class="modal-close-btn" id="closeAuthModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="authForm" onsubmit="event.preventDefault(); handleAuthSubmit();">
+                    <div class="form-group">
+                        <label for="userEmail">Email Address</label>
+                        <input type="email" id="userEmail" class="form-input" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userName">Full Name</label>
+                        <input type="text" id="userName" class="form-input" placeholder="John Doe">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-glow">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/movies.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Optional React JSX component loads -->
+    <script type="text/babel" src="react/Navbar.jsx"></script>
+    <script type="text/babel" src="react/MovieCard.jsx"></script>
+    <script type="text/babel" src="react/Footer.jsx"></script>
+    <script type="text/babel" src="react/Modal.jsx"></script>
+</body>
+
+</html>

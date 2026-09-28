@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seats - Movie Ticket Booking System</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/seats.css" />
+</head>
+
+<body class="dark-theme">
+    <div class="page-shell">
+        <header class="topbar">
+            <div>
+                <span class="brand">BookMyShow Style</span>
+                <h1>Seat Selection</h1>
+            </div>
+            <label class="search-box">
+        <input id="movieSearch" type="text" placeholder="Search movies, theatres or shows" />
+      </label>
+        </header>
+
+        <main class="booking-grid">
+            <section class="panel left-panel">
+                <div class="movie-cards" id="movieCards"></div>
+
+                <div class="control-row">
+                    <div class="field">
+                        <label for="theatreSelect">Theatre</label>
+                        <select id="theatreSelect">
+              <option>INOX City Center</option>
+              <option>Miraj Cinema</option>
+              <option>PVR Luxe</option>
+            </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="showtimeSelect">Showtime</label>
+                        <select id="showtimeSelect">
+              <option>10:30 AM</option>
+              <option>1:15 PM</option>
+              <option>4:00 PM</option>
+              <option>8:30 PM</option>
+            </select>
+                    </div>
+                </div>
+
+                <div class="screen">SCREEN THIS WAY</div>
+                <div class="seat-map" id="seatMap"></div>
+
+                <div class="seat-legend">
+                    <span><i class="seat-circle available"></i> Available</span>
+                    <span><i class="seat-circle selected"></i> Selected</span>
+                    <span><i class="seat-circle booked"></i> Booked</span>
+                    <span><i class="seat-circle premium"></i> Premium</span>
+                </div>
+            </section>
+
+            <aside class="panel right-panel">
+                <div class="summary-card">
+                    <h2>Booking Summary</h2>
+                    <div class="summary-line"><span>Movie</span><strong id="summaryMovie">Avatar: Fire and Ash</strong></div>
+                    <div class="summary-line"><span>Show</span><strong id="summaryShow">10:30 AM</strong></div>
+                    <div class="summary-line"><span>Theatre</span><strong id="summaryTheatre">INOX City Center</strong></div>
+                    <div class="summary-line"><span>Seats</span><strong id="summarySeats">0 selected</strong></div>
+                    <div class="summary-line total"><span>Total</span><strong id="summaryTotal">₹0</strong></div>
+                </div>
+
+                <div class="customer-card">
+                    <label>Guest Name</label>
+                    <input id="guestName" type="text" placeholder="Enter your name" />
+                    <label>Email</label>
+                    <input id="guestEmail" type="email" placeholder="Enter your email" />
+                    <button id="bookBtn" class="book-btn">Book Tickets</button>
+                </div>
+
+                <div class="history-card">
+                    <h3>Recent Bookings</h3>
+                    <ul id="bookingHistory"></ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/seats.js"></script>
+</body>
+
+</html>
